@@ -226,7 +226,7 @@ dist/
 .npm
 
 # ML artifacts
-*.pkl
+# *.pkl
 *.joblib
 *.h5
 *.pt
