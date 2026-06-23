@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class ProductCreateRequest(BaseModel):
@@ -22,3 +23,6 @@ class ProductResponse(BaseModel):
 
     base_price: int
     sale_price: int
+
+class BulkProductImportRequest(BaseModel):
+    products: List[ProductCreateRequest]

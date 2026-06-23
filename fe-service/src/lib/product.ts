@@ -57,3 +57,16 @@ export async function deleteProduct(
 
   return res.data.data;
 }
+
+export async function importProducts(
+  products: any[]
+) {
+  const res = await api.post(
+    "/api/v1/products/import",
+    {
+      products,
+    }
+  );
+
+  return res.data.data;
+}

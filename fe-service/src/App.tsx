@@ -7,6 +7,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import ProductPage from "@/pages/ProductPage";
 import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
+import DemandForecastPage from "@/pages/DemandForecastPage";
 
 export default function App() {
   return (
@@ -43,6 +44,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <ProductEditPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/demand-forecasting"
+        element={
+          <ProtectedRoute>
+            <DemandForecastPage />
           </ProtectedRoute>
         }
       />

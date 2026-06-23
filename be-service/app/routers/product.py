@@ -3,7 +3,8 @@ from fastapi import APIRouter
 from app.models.common import ApiResponse
 from app.models.product import (
     ProductCreateRequest,
-    ProductResponse
+    ProductResponse,
+    BulkProductImportRequest
 )
 
 from app.controllers import product_controller
@@ -77,4 +78,19 @@ def delete_product(product_id: int):
         success=True,
         message="Product deleted successfully",
         data=None
+    )
+
+@router.post("/import")
+def import_products(
+    payload: BulkProductImportRequest
+):
+
+    data = product_controller.import_products(
+        payload.products
+    )
+
+    return ApiResponse(
+        success=True,
+        message="Products imported successfully",
+        data=data
     )

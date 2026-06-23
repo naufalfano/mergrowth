@@ -26,7 +26,7 @@ def create_product(payload: ProductCreateRequest):
         (
             supabase.table("product_price")
             .insert({
-                "product_id": product["id"],
+                "product_id": product["product_id"],
                 "base_price": payload.base_price,
                 "sale_price": payload.sale_price,
             })
@@ -34,7 +34,7 @@ def create_product(payload: ProductCreateRequest):
         )
 
         return {
-            "id": product["id"],
+            "product_id": product["product_id"],
             "product_name": product["product_name"],
             "description": product["description"],
             "category": product["category"],
@@ -57,7 +57,7 @@ def get_products():
             supabase.table("product")
             .select(
                 """
-                id,
+                product_id,
                 product_name,
                 description,
                 category,
@@ -70,19 +70,26 @@ def get_products():
         result = []
 
         for product in products.data:
-
             price = (
                 supabase.table("product_price")
                 .select("base_price, sale_price")
-                .eq("product_id", product["id"])
-                .single()
+                .eq("product_id", product["product_id"])
+                .limit(1)
                 .execute()
             )
 
+            price_data = (
+                price.data[0]
+                if price.data
+                else {
+                    "base_price": 0,
+                    "sale_price": 0,
+                }
+            )
             result.append({
                 **product,
-                "base_price": price.data["base_price"],
-                "sale_price": price.data["sale_price"],
+                "base_price": price_data["base_price"],
+                "sale_price": price_data["sale_price"],
             })
 
         return result
@@ -99,7 +106,7 @@ def get_product(product_id: int):
         product = (
             supabase.table("product")
             .select("*")
-            .eq("id", product_id)
+            .eq("product_id", product_id)
             .single()
             .execute()
         )
@@ -139,7 +146,7 @@ def update_product(
                 "category": payload.category,
                 "current_stock": payload.current_stock,
             })
-            .eq("id", product_id)
+            .eq("product_id", product_id)
             .execute()
         )
 
@@ -175,11 +182,50 @@ def delete_product(product_id: int):
         (
             supabase.table("product")
             .delete()
-            .eq("id", product_id)
+            .eq("product_id", product_id)
             .execute()
         )
 
         return None
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+    
+def import_products(products):
+
+    try:
+
+        for product in products:
+
+            product_res = (
+                supabase.table("product")
+                .insert({
+                    "product_name": product.product_name,
+                    "description": product.description,
+                    "category": product.category,
+                    "current_stock": product.current_stock,
+                })
+                .execute()
+            )
+
+            product_id = product_res.data[0]["id"]
+
+            (
+                supabase.table("product_price")
+                .insert({
+                    "product_id": product_id,
+                    "base_price": product.base_price,
+                    "sale_price": product.sale_price,
+                })
+                .execute()
+            )
+
+        return {
+            "total_imported": len(products)
+        }
 
     except Exception as e:
         raise HTTPException(
