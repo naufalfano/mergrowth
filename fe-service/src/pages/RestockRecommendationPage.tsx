@@ -3,7 +3,6 @@ import {
   Wallet,
   Package,
   TrendingUp,
-  CircleDollarSign,
 } from "lucide-react";
 
 import {

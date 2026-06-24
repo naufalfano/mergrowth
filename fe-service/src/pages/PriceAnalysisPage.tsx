@@ -1,9 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  DollarSign,
-  TrendingUp,
-  Search,
-} from "lucide-react";
 
 import { getProducts } from "@/lib/product";
 
