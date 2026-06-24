@@ -11,6 +11,13 @@ export async function getProducts(
   return res.data.data;
 }
 
+export async function getAllProducts() {
+  const res = await api.get(
+    "/api/v1/products?page=1&page_size=1000"
+  );
+  return res.data.data.items as any[];
+}
+
 export async function createProduct(payload: {
   product_name: string;
   description: string;

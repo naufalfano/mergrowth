@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
-import { getProducts } from "@/lib/product";
+import { getAllProducts } from "@/lib/product";
+import ProductSelect from "@/components/ProductSelect";
 
 import {
   analyzeExistingProduct,
@@ -39,8 +40,7 @@ export default function PriceAnalysisPage() {
   }, []);
 
   async function loadProducts() {
-    const data = await getProducts();
-    const items = data.items ?? [];
+    const items = await getAllProducts();
 
     setProducts(items);
 
@@ -152,34 +152,11 @@ export default function PriceAnalysisPage() {
                 Product
               </label>
 
-              <select
+              <ProductSelect
+                products={products}
                 value={productId}
-                onChange={(e) =>
-                  setProductId(
-                    Number(
-                      e.target.value
-                    )
-                  )
-                }
-                className="w-full border rounded-xl px-4 py-3"
-              >
-                {products.map(
-                  (product) => (
-                    <option
-                      key={
-                        product.product_id
-                      }
-                      value={
-                        product.product_id
-                      }
-                    >
-                      {
-                        product.product_name
-                      }
-                    </option>
-                  )
-                )}
-              </select>
+                onChange={setProductId}
+              />
 
             </div>
 

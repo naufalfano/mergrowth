@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { fetchRecommendation, RecommendationResponse } from "@/lib/marketing";
 import { fetchAssociation, AssociationResponse } from "@/lib/dashboard";
-import { getProducts } from "@/lib/product";
+import { getAllProducts } from "@/lib/product";
 import { Lightbulb, ChevronRight, ArrowRight } from "lucide-react";
+import ProductSelect from "@/components/ProductSelect";
 
 // ─── Recommendations ───────────────────────────────────────────────────────
 
@@ -63,8 +64,7 @@ export default function RecommendationPage() {
   useEffect(() => {
     async function loadProducts() {
       try {
-        const data = await getProducts();
-        const items = data.items ?? [];
+        const items = await getAllProducts();
         setProducts(items);
         if (items.length > 0) setProduct1(String(items[0].product_id));
         if (items.length > 1) setProduct2(String(items[1].product_id));
@@ -151,17 +151,11 @@ export default function RecommendationPage() {
               <label className="text-xs font-medium text-slate-500 mb-1 block">
                 Product {recLevel === 2 ? "A" : ""}
               </label>
-              <select
-                value={product1}
-                onChange={(e) => setProduct1(e.target.value)}
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100"
-              >
-                {products.map((p) => (
-                  <option key={p.product_id} value={p.product_id}>
-                    {p.product_name}
-                  </option>
-                ))}
-              </select>
+              <ProductSelect
+                products={products}
+                value={Number(product1) || undefined}
+                onChange={(id) => setProduct1(String(id))}
+              />
             </div>
 
             {recLevel === 2 && (
@@ -169,19 +163,11 @@ export default function RecommendationPage() {
                 <label className="text-xs font-medium text-slate-500 mb-1 block">
                   Product B
                 </label>
-                <select
-                  value={product2}
-                  onChange={(e) => setProduct2(e.target.value)}
-                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100"
-                >
-                  {products
-                    .filter((p) => String(p.product_id) !== product1)
-                    .map((p) => (
-                      <option key={p.product_id} value={p.product_id}>
-                        {p.product_name}
-                      </option>
-                    ))}
-                </select>
+                <ProductSelect
+                  products={products.filter((p) => String(p.product_id) !== product1)}
+                  value={Number(product2) || undefined}
+                  onChange={(id) => setProduct2(String(id))}
+                />
               </div>
             )}
 

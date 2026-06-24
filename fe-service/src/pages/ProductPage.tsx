@@ -7,7 +7,8 @@ import {
   Plus,
   Pencil,
   Trash2,
-  Upload
+  Upload,
+  ArrowLeft
 } from "lucide-react";
 
 import {
@@ -100,6 +101,13 @@ export default function ProductPage() {
 
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-8 pt-10">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-6 transition"
+        >
+          <ArrowLeft size={15} /> Dashboard
+        </button>
+
         <div className="bg-gradient-to-br from-slate-50 to-indigo-100 rounded-[32px] p-10 mb-8">
 
           <h1 className="text-4xl font-bold text-slate-900">
