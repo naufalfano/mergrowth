@@ -13,6 +13,12 @@ import MarketEntryPage from "@/pages/MarketEntryPage";
 import CorpusAnalysisPage from "@/pages/CorpusAnalysisPage";
 import BrandAdvisorPage from "@/pages/BrandAdvisorPage";
 import OnboardingPage from "@/pages/OnboardingPage";
+import MarketingLayout from "@/pages/marketing/MarketingLayout";
+import MarketingDashboardPage from "@/pages/marketing/MarketingDashboardPage";
+import SalesPage from "@/pages/marketing/SalesPage";
+import NettPage from "@/pages/marketing/NettPage";
+import ProductInsightPage from "@/pages/marketing/ProductInsightPage";
+import RecommendationPage from "@/pages/marketing/RecommendationPage";
 
 export default function App() {
   return (
@@ -60,6 +66,20 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/marketing"
+        element={
+          <ProtectedRoute>
+            <MarketingLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<MarketingDashboardPage />} />
+        <Route path="sales" element={<SalesPage />} />
+        <Route path="nett" element={<NettPage />} />
+        <Route path="product-insight" element={<ProductInsightPage />} />
+        <Route path="recommendation" element={<RecommendationPage />} />
+      </Route>
       <Route
         path="/market-entry"
         element={
