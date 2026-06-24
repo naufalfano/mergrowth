@@ -146,6 +146,7 @@ export default function DashboardPage() {
             </p>
 
             <button
+              onClick={() => navigate("/marketing")}
               className="bg-[#2D4FE5] hover:bg-[#2444d0] text-white px-5 py-3 rounded-xl"
             >
               Open Module

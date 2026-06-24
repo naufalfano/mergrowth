@@ -8,6 +8,12 @@ import ProductPage from "@/pages/ProductPage";
 import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
 import DemandForecastPage from "@/pages/DemandForecastPage";
+import MarketingLayout from "@/pages/marketing/MarketingLayout";
+import MarketingDashboardPage from "@/pages/marketing/MarketingDashboardPage";
+import SalesPage from "@/pages/marketing/SalesPage";
+import NettPage from "@/pages/marketing/NettPage";
+import ProductInsightPage from "@/pages/marketing/ProductInsightPage";
+import RecommendationPage from "@/pages/marketing/RecommendationPage";
 
 export default function App() {
   return (
@@ -55,6 +61,20 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/marketing"
+        element={
+          <ProtectedRoute>
+            <MarketingLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<MarketingDashboardPage />} />
+        <Route path="sales" element={<SalesPage />} />
+        <Route path="nett" element={<NettPage />} />
+        <Route path="product-insight" element={<ProductInsightPage />} />
+        <Route path="recommendation" element={<RecommendationPage />} />
+      </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
