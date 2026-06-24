@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { TrendingUp, Package } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { TrendingUp, Package, ArrowLeft } from "lucide-react";
 
 import { getProducts } from "@/lib/product";
 import {
@@ -7,6 +8,7 @@ import {
 } from "@/lib/demandForecasting";
 
 export default function DemandForecastPage() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<any[]>([]);
   const [productId, setProductId] = useState<number>();
 
@@ -26,11 +28,12 @@ export default function DemandForecastPage() {
   async function loadProducts() {
     try {
       const data = await getProducts();
+      const items = data.items ?? [];
 
-      setProducts(data);
+      setProducts(items);
 
-      if (data.length > 0) {
-        setProductId(data[0].product_id);
+      if (items.length > 0) {
+        setProductId(items[0].product_id);
       }
     } catch (err) {
       console.error(err);
@@ -62,6 +65,13 @@ export default function DemandForecastPage() {
     <div className="min-h-screen bg-gray-50">
 
       <div className="max-w-6xl mx-auto px-8 pt-10">
+
+        <button
+          onClick={() => navigate("/products")}
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-6 transition"
+        >
+          <ArrowLeft size={15} /> Products
+        </button>
 
         {/* Hero */}
 

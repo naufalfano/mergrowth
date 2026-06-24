@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Wallet,
   Package,
   TrendingUp,
+  ArrowLeft,
 } from "lucide-react";
 
 import {
@@ -10,6 +12,7 @@ import {
 } from "@/lib/restockRecommendation";
 
 export default function RestockRecommendationPage() {
+  const navigate = useNavigate();
 
   const [budget, setBudget] =
     useState("");
@@ -57,6 +60,13 @@ export default function RestockRecommendationPage() {
     <div className="min-h-screen bg-gray-50">
 
       <div className="max-w-6xl mx-auto px-8 pt-10">
+
+        <button
+          onClick={() => navigate("/products")}
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-6 transition"
+        >
+          <ArrowLeft size={15} /> Products
+        </button>
 
         {/* Hero */}
 
