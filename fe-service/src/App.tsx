@@ -8,6 +8,7 @@ import ProductPage from "@/pages/ProductPage";
 import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
 import DemandForecastPage from "@/pages/DemandForecastPage";
+import MarketEntryPage from "@/pages/MarketEntryPage";
 
 export default function App() {
   return (
@@ -52,6 +53,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <DemandForecastPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market-entry"
+        element={
+          <ProtectedRoute>
+            <MarketEntryPage />
           </ProtectedRoute>
         }
       />
