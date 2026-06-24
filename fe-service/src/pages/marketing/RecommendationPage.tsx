@@ -64,9 +64,10 @@ export default function RecommendationPage() {
     async function loadProducts() {
       try {
         const data = await getProducts();
-        setProducts(data);
-        if (data.length > 0) setProduct1(String(data[0].product_id));
-        if (data.length > 1) setProduct2(String(data[1].product_id));
+        const items = data.items ?? [];
+        setProducts(items);
+        if (items.length > 0) setProduct1(String(items[0].product_id));
+        if (items.length > 1) setProduct2(String(items[1].product_id));
       } catch {
         // products failed; recommendation section will stay empty
       } finally {

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 import { getProducts } from "@/lib/product";
 
@@ -8,6 +10,7 @@ import {
 } from "@/lib/priceAnalysis";
 
 export default function PriceAnalysisPage() {
+  const navigate = useNavigate();
   const [tab, setTab] =
     useState<"existing" | "new">(
       "existing"
@@ -36,15 +39,13 @@ export default function PriceAnalysisPage() {
   }, []);
 
   async function loadProducts() {
-    const data =
-      await getProducts();
+    const data = await getProducts();
+    const items = data.items ?? [];
 
-    setProducts(data);
+    setProducts(items);
 
-    if (data.length > 0) {
-      setProductId(
-        data[0].product_id
-      );
+    if (items.length > 0) {
+      setProductId(items[0].product_id);
     }
   }
 
@@ -83,6 +84,13 @@ export default function PriceAnalysisPage() {
     <div className="min-h-screen bg-gray-50">
 
       <div className="max-w-7xl mx-auto px-8 pt-10">
+
+        <button
+          onClick={() => navigate("/products")}
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-6 transition"
+        >
+          <ArrowLeft size={15} /> Products
+        </button>
 
         {/* HERO */}
 
