@@ -8,13 +8,6 @@ import ProductPage from "@/pages/ProductPage";
 import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
 import DemandForecastPage from "@/pages/DemandForecastPage";
-import MarketEntryHubPage from "@/pages/MarketEntryHubPage";
-import MarketEntryPage from "@/pages/MarketEntryPage";
-import MarketEntryHubPage from "@/pages/MarketEntryHubPage";
-import MarketEntryPage from "@/pages/MarketEntryPage";
-import CorpusAnalysisPage from "@/pages/CorpusAnalysisPage";
-import BrandAdvisorPage from "@/pages/BrandAdvisorPage";
-import OnboardingPage from "@/pages/OnboardingPage";
 import MarketingLayout from "@/pages/marketing/MarketingLayout";
 import MarketingDashboardPage from "@/pages/marketing/MarketingDashboardPage";
 import SalesPage from "@/pages/marketing/SalesPage";
@@ -26,6 +19,8 @@ import PriceAnalysisPage from "./pages/PriceAnalysisPage";
 import CorpusAnalysisPage from "@/pages/CorpusAnalysisPage";
 import BrandAdvisorPage from "@/pages/BrandAdvisorPage";
 import OnboardingPage from "@/pages/OnboardingPage";
+import MarketEntryHubPage from "@/pages/MarketEntryHubPage";
+import MarketEntryPage from "@/pages/MarketEntryPage";
 
 export default function App() {
   return (
@@ -140,46 +135,6 @@ export default function App() {
         element={
           <ProtectedRoute>
             <PriceAnalysisPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/market-entry"
-        element={
-          <ProtectedRoute>
-            <MarketEntryHubPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/market-entry/gap"
-        element={
-          <ProtectedRoute>
-            <MarketEntryPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/market-entry/competitor-review"
-        element={
-          <ProtectedRoute>
-            <CorpusAnalysisPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/market-entry/ai-advisor"
-        element={
-          <ProtectedRoute>
-            <BrandAdvisorPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/onboarding"
-        element={
-          <ProtectedRoute>
-            <OnboardingPage />
           </ProtectedRoute>
         }
       />
