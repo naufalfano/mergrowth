@@ -1,0 +1,497 @@
+{
+  "Fashion": {
+    "n_listings": 2775,
+    "k": 3,
+    "silhouette": 0.3506,
+    "davies_bouldin": 1.0039,
+    "recommended_tier": "Mid",
+    "tiers": [
+      {
+        "tier": "Mid",
+        "shop_count": 159,
+        "gap_share": 0.0917,
+        "is_gap": true,
+        "price_range": {
+          "p25": 59225,
+          "median": 121100,
+          "p75": 189674
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 705,
+        "gap_share": 0.4066,
+        "is_gap": false,
+        "price_range": {
+          "p25": 25000,
+          "median": 54000,
+          "p75": 94500
+        }
+      },
+      {
+        "tier": "Premium",
+        "shop_count": 1047,
+        "gap_share": 0.6038,
+        "is_gap": false,
+        "price_range": {
+          "p25": 78375,
+          "median": 140000,
+          "p75": 249900
+        }
+      }
+    ]
+  },
+  "Electronics": {
+    "n_listings": 2313,
+    "k": 4,
+    "silhouette": 0.5236,
+    "davies_bouldin": 0.638,
+    "recommended_tier": "Mid-High",
+    "tiers": [
+      {
+        "tier": "Mid-High",
+        "shop_count": 86,
+        "gap_share": 0.075,
+        "is_gap": true,
+        "price_range": {
+          "p25": 63736,
+          "median": 207000,
+          "p75": 698000
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 89,
+        "gap_share": 0.0776,
+        "is_gap": true,
+        "price_range": {
+          "p25": 30775,
+          "median": 75000,
+          "p75": 154500
+        }
+      },
+      {
+        "tier": "Mid-Low",
+        "shop_count": 252,
+        "gap_share": 0.2197,
+        "is_gap": true,
+        "price_range": {
+          "p25": 68724,
+          "median": 149900,
+          "p75": 299000
+        }
+      },
+      {
+        "tier": "Premium",
+        "shop_count": 839,
+        "gap_share": 0.7315,
+        "is_gap": false,
+        "price_range": {
+          "p25": 99000,
+          "median": 260000,
+          "p75": 1183500
+        }
+      }
+    ]
+  },
+  "Beauty": {
+    "n_listings": 1389,
+    "k": 3,
+    "silhouette": 0.3472,
+    "davies_bouldin": 0.933,
+    "recommended_tier": "Premium",
+    "tiers": [
+      {
+        "tier": "Premium",
+        "shop_count": 41,
+        "gap_share": 0.0516,
+        "is_gap": true,
+        "price_range": {
+          "p25": 35500,
+          "median": 75000,
+          "p75": 164449
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 250,
+        "gap_share": 0.3149,
+        "is_gap": false,
+        "price_range": {
+          "p25": 32075,
+          "median": 60787,
+          "p75": 106500
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 571,
+        "gap_share": 0.7191,
+        "is_gap": false,
+        "price_range": {
+          "p25": 32900,
+          "median": 63800,
+          "p75": 133875
+        }
+      }
+    ]
+  },
+  "Food": {
+    "n_listings": 686,
+    "k": 3,
+    "silhouette": 0.6077,
+    "davies_bouldin": 0.509,
+    "recommended_tier": "Premium",
+    "tiers": [
+      {
+        "tier": "Premium",
+        "shop_count": 48,
+        "gap_share": 0.0996,
+        "is_gap": true,
+        "price_range": {
+          "p25": 23892,
+          "median": 61900,
+          "p75": 150000
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 88,
+        "gap_share": 0.1826,
+        "is_gap": true,
+        "price_range": {
+          "p25": 27000,
+          "median": 37500,
+          "p75": 79000
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 361,
+        "gap_share": 0.749,
+        "is_gap": false,
+        "price_range": {
+          "p25": 17075,
+          "median": 45000,
+          "p75": 112271
+        }
+      }
+    ]
+  },
+  "Home": {
+    "n_listings": 2934,
+    "k": 4,
+    "silhouette": 0.4699,
+    "davies_bouldin": 0.7337,
+    "recommended_tier": "Mid-High",
+    "tiers": [
+      {
+        "tier": "Mid-High",
+        "shop_count": 111,
+        "gap_share": 0.0705,
+        "is_gap": true,
+        "price_range": {
+          "p25": 76807,
+          "median": 225000,
+          "p75": 756250
+        }
+      },
+      {
+        "tier": "Mid-Low",
+        "shop_count": 148,
+        "gap_share": 0.094,
+        "is_gap": true,
+        "price_range": {
+          "p25": 41000,
+          "median": 134737,
+          "p75": 371000
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 385,
+        "gap_share": 0.2446,
+        "is_gap": true,
+        "price_range": {
+          "p25": 49000,
+          "median": 124200,
+          "p75": 352725
+        }
+      },
+      {
+        "tier": "Premium",
+        "shop_count": 1122,
+        "gap_share": 0.7128,
+        "is_gap": false,
+        "price_range": {
+          "p25": 85144,
+          "median": 319000,
+          "p75": 1139525
+        }
+      }
+    ]
+  },
+  "Sports": {
+    "n_listings": 1469,
+    "k": 3,
+    "silhouette": 0.4605,
+    "davies_bouldin": 0.8073,
+    "recommended_tier": "Premium",
+    "tiers": [
+      {
+        "tier": "Premium",
+        "shop_count": 66,
+        "gap_share": 0.0701,
+        "is_gap": true,
+        "price_range": {
+          "p25": 82794,
+          "median": 192000,
+          "p75": 764500
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 235,
+        "gap_share": 0.2495,
+        "is_gap": true,
+        "price_range": {
+          "p25": 50800,
+          "median": 109000,
+          "p75": 199600
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 693,
+        "gap_share": 0.7357,
+        "is_gap": false,
+        "price_range": {
+          "p25": 69900,
+          "median": 187500,
+          "p75": 552690
+        }
+      }
+    ]
+  },
+  "Kids": {
+    "n_listings": 914,
+    "k": 3,
+    "silhouette": 0.6122,
+    "davies_bouldin": 0.5001,
+    "recommended_tier": "Premium",
+    "tiers": [
+      {
+        "tier": "Premium",
+        "shop_count": 46,
+        "gap_share": 0.0952,
+        "is_gap": true,
+        "price_range": {
+          "p25": 40500,
+          "median": 116650,
+          "p75": 294000
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 115,
+        "gap_share": 0.2381,
+        "is_gap": true,
+        "price_range": {
+          "p25": 33525,
+          "median": 69450,
+          "p75": 150000
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 358,
+        "gap_share": 0.7412,
+        "is_gap": false,
+        "price_range": {
+          "p25": 37361,
+          "median": 94950,
+          "p75": 214972
+        }
+      }
+    ]
+  },
+  "Books": {
+    "n_listings": 733,
+    "k": 4,
+    "silhouette": 0.6269,
+    "davies_bouldin": 0.5733,
+    "recommended_tier": "Budget",
+    "tiers": [
+      {
+        "tier": "Budget",
+        "shop_count": 27,
+        "gap_share": 0.0632,
+        "is_gap": true,
+        "price_range": {
+          "p25": 15375,
+          "median": 32350,
+          "p75": 63749
+        }
+      },
+      {
+        "tier": "Mid-High",
+        "shop_count": 31,
+        "gap_share": 0.0726,
+        "is_gap": true,
+        "price_range": {
+          "p25": 31875,
+          "median": 59200,
+          "p75": 165375
+        }
+      },
+      {
+        "tier": "Mid-Low",
+        "shop_count": 78,
+        "gap_share": 0.1827,
+        "is_gap": true,
+        "price_range": {
+          "p25": 26500,
+          "median": 52990,
+          "p75": 156010
+        }
+      },
+      {
+        "tier": "Premium",
+        "shop_count": 321,
+        "gap_share": 0.7518,
+        "is_gap": false,
+        "price_range": {
+          "p25": 35000,
+          "median": 71550,
+          "p75": 121375
+        }
+      }
+    ]
+  },
+  "Automotive": {
+    "n_listings": 572,
+    "k": 3,
+    "silhouette": 0.7643,
+    "davies_bouldin": 0.3174,
+    "recommended_tier": "Premium",
+    "tiers": [
+      {
+        "tier": "Premium",
+        "shop_count": 35,
+        "gap_share": 0.0902,
+        "is_gap": true,
+        "price_range": {
+          "p25": 47399,
+          "median": 163000,
+          "p75": 410000
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 76,
+        "gap_share": 0.1959,
+        "is_gap": true,
+        "price_range": {
+          "p25": 31875,
+          "median": 50243,
+          "p75": 99949
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 291,
+        "gap_share": 0.75,
+        "is_gap": false,
+        "price_range": {
+          "p25": 25750,
+          "median": 95000,
+          "p75": 422040
+        }
+      }
+    ]
+  },
+  "Pets": {
+    "n_listings": 417,
+    "k": 3,
+    "silhouette": 0.8765,
+    "davies_bouldin": 0.3152,
+    "recommended_tier": "Premium",
+    "tiers": [
+      {
+        "tier": "Premium",
+        "shop_count": 23,
+        "gap_share": 0.0966,
+        "is_gap": true,
+        "price_range": {
+          "p25": 23125,
+          "median": 49500,
+          "p75": 97500
+        }
+      },
+      {
+        "tier": "Budget",
+        "shop_count": 33,
+        "gap_share": 0.1387,
+        "is_gap": true,
+        "price_range": {
+          "p25": 18800,
+          "median": 39450,
+          "p75": 92349
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 193,
+        "gap_share": 0.8109,
+        "is_gap": false,
+        "price_range": {
+          "p25": 24999,
+          "median": 46000,
+          "p75": 80000
+        }
+      }
+    ]
+  },
+  "Tools": {
+    "n_listings": 819,
+    "k": 3,
+    "silhouette": 0.7612,
+    "davies_bouldin": 0.3202,
+    "recommended_tier": "Budget",
+    "tiers": [
+      {
+        "tier": "Budget",
+        "shop_count": 31,
+        "gap_share": 0.0638,
+        "is_gap": true,
+        "price_range": {
+          "p25": 17250,
+          "median": 35600,
+          "p75": 92500
+        }
+      },
+      {
+        "tier": "Premium",
+        "shop_count": 78,
+        "gap_share": 0.1605,
+        "is_gap": true,
+        "price_range": {
+          "p25": 14999,
+          "median": 49900,
+          "p75": 185000
+        }
+      },
+      {
+        "tier": "Mid",
+        "shop_count": 400,
+        "gap_share": 0.823,
+        "is_gap": false,
+        "price_range": {
+          "p25": 17500,
+          "median": 48000,
+          "p75": 188749
+        }
+      }
+    ]
+  }
+}

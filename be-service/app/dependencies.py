@@ -1,8 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
 
-from app.service.config import settings
+from app.service.supabase import supabase
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/signin")
 
@@ -14,10 +13,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        payload = jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm])
-        user_id: str = payload.get("sub")
-        if user_id is None:
+        res = supabase.auth.get_user(token)
+        if not res.user:
             raise credentials_exception
-    except JWTError:
+        return {"user_id": str(res.user.id), "token": token}
+    except Exception:
         raise credentials_exception
-    return {"user_id": user_id, "token": token}

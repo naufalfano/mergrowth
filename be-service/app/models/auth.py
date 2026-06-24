@@ -19,3 +19,4 @@ class AuthResponse(BaseModel):
     email: str
     full_name: str | None
     role: str | None
+    onboarding_completed: bool

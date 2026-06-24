@@ -39,9 +39,7 @@
           "p75": 249900
         }
       }
-    ],
-    "trend_signal": null,
-    "trend_direction": "unknown"
+    ]
   },
   "Electronics": {
     "n_listings": 2313,
@@ -94,9 +92,7 @@
           "p75": 1183500
         }
       }
-    ],
-    "trend_signal": 58.3,
-    "trend_direction": "rising"
+    ]
   },
   "Beauty": {
     "n_listings": 1389,
@@ -138,9 +134,7 @@
           "p75": 133875
         }
       }
-    ],
-    "trend_signal": null,
-    "trend_direction": "unknown"
+    ]
   },
   "Food": {
     "n_listings": 686,
@@ -182,9 +176,7 @@
           "p75": 112271
         }
       }
-    ],
-    "trend_signal": null,
-    "trend_direction": "unknown"
+    ]
   },
   "Home": {
     "n_listings": 2934,
@@ -237,9 +229,7 @@
           "p75": 1139525
         }
       }
-    ],
-    "trend_signal": null,
-    "trend_direction": "unknown"
+    ]
   },
   "Sports": {
     "n_listings": 1469,
@@ -281,9 +271,7 @@
           "p75": 552690
         }
       }
-    ],
-    "trend_signal": 35.1,
-    "trend_direction": "rising"
+    ]
   },
   "Kids": {
     "n_listings": 914,
@@ -325,9 +313,7 @@
           "p75": 214972
         }
       }
-    ],
-    "trend_signal": 79.8,
-    "trend_direction": "rising"
+    ]
   },
   "Books": {
     "n_listings": 733,
@@ -380,9 +366,7 @@
           "p75": 121375
         }
       }
-    ],
-    "trend_signal": null,
-    "trend_direction": "unknown"
+    ]
   },
   "Automotive": {
     "n_listings": 572,
@@ -424,9 +408,7 @@
           "p75": 422040
         }
       }
-    ],
-    "trend_signal": null,
-    "trend_direction": "unknown"
+    ]
   },
   "Pets": {
     "n_listings": 417,
@@ -468,9 +450,7 @@
           "p75": 80000
         }
       }
-    ],
-    "trend_signal": 79.7,
-    "trend_direction": "flat"
+    ]
   },
   "Tools": {
     "n_listings": 819,
@@ -512,8 +492,6 @@
           "p75": 188749
         }
       }
-    ],
-    "trend_signal": 38.0,
-    "trend_direction": "flat"
+    ]
   }
 }

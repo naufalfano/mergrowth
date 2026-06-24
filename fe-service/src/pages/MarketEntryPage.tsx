@@ -3,16 +3,19 @@ import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
-  ChevronDown,
+  Check,
+  ChevronRight,
   Search,
   TrendingUp,
+  TrendingDown,
   Target,
   Zap,
+  Store,
 } from "lucide-react";
 import {
   CATEGORIES,
   analyzeMarketEntry,
-  getMarketEntryByCategory,
+  analyzeMultipleCategories,
   formatRupiah,
   formatPriceRange,
   type MarketEntryResult,
@@ -23,7 +26,7 @@ import {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type Step = 1 | 2 | 3 | 4;
-type InputMode = "dropdown" | "text";
+type InputMode = "chips" | "text";
 
 const TIER_COLORS: Record<string, string> = {
   Budget: "bg-amber-400",
@@ -41,7 +44,7 @@ const TIER_LIGHT: Record<string, string> = {
   Premium: "bg-violet-50 border-violet-200 text-violet-700",
 };
 
-// ── Step indicator ─────────────────────────────────────────────────────────────
+// ── Stepper ───────────────────────────────────────────────────────────────────
 
 function Stepper({ current }: { current: Step }) {
   const steps = ["Input", "Landscape", "Gap", "Strategy"];
@@ -87,16 +90,18 @@ function Stepper({ current }: { current: Step }) {
   );
 }
 
-// ── Bar chart for tier landscape ───────────────────────────────────────────────
+// ── Tier bar (single-category landscape) ──────────────────────────────────────
 
 function TierBar({
   tier,
+  shopCount,
   gapShare,
   isGap,
   priceRange,
   animate,
 }: {
   tier: string;
+  shopCount: number;
   gapShare: number;
   isGap: boolean;
   priceRange: { p25: number; median: number; p75: number };
@@ -108,9 +113,7 @@ function TierBar({
   return (
     <div
       className={`rounded-2xl p-4 border transition-all ${
-        isGap
-          ? "bg-blue-50 border-blue-300 shadow-md"
-          : "bg-white border-slate-100"
+        isGap ? "bg-blue-50 border-blue-300 shadow-md" : "bg-white border-slate-100"
       }`}
     >
       <div className="flex items-center justify-between mb-3">
@@ -133,10 +136,106 @@ function TierBar({
       </div>
 
       <div className="flex justify-between mt-2 text-sm text-slate-500">
-        <span>{pct}% seller share</span>
+        <span className="flex items-center gap-1.5">
+          <Store size={13} />
+          {shopCount.toLocaleString()} shops ({pct}%)
+        </span>
         {isGap && <span className="text-blue-600 font-medium">Lowest competition</span>}
       </div>
     </div>
+  );
+}
+
+// ── Rank card (multi-category comparison) ─────────────────────────────────────
+
+function RankCard({
+  result,
+  rank,
+  selected,
+  onSelect,
+}: {
+  result: MarketEntryResult;
+  rank: number;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  const gap = result.all_tiers.find((t) => t.is_gap);
+  const pct = gap ? Math.round(gap.gap_share * 100) : 0;
+
+  return (
+    <button
+      onClick={onSelect}
+      className={`w-full text-left rounded-2xl border p-5 transition-all ${
+        selected
+          ? "border-[#2D4FE5] bg-blue-50 shadow-md ring-2 ring-blue-200"
+          : "border-slate-100 bg-white hover:border-blue-200 hover:shadow-sm"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        {/* Rank badge */}
+        <div
+          className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center text-sm font-bold ${
+            rank === 1
+              ? "bg-[#2D4FE5] text-white"
+              : rank === 2
+              ? "bg-indigo-100 text-indigo-700"
+              : "bg-slate-100 text-slate-500"
+          }`}
+        >
+          {rank}
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="font-bold text-slate-900 text-base">{result.category}</span>
+            {rank === 1 && (
+              <span className="bg-[#2D4FE5] text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                BEST
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500 mb-3">
+            <span>
+              Gap tier:{" "}
+              <span className="font-medium text-slate-700">{gap?.tier ?? "—"}</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <Store size={12} />
+              {gap?.shop_count.toLocaleString() ?? "—"} shops ({pct}%)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-slate-400">Entry price:</span>
+            <span className="font-semibold text-slate-800">
+              {formatPriceRange(result.entry_price_range)}
+            </span>
+          </div>
+        </div>
+
+        {/* Selection indicator */}
+        <div
+          className={`shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+            selected ? "bg-[#2D4FE5] border-[#2D4FE5]" : "border-slate-300"
+          }`}
+        >
+          {selected && <Check size={11} className="text-white" />}
+        </div>
+      </div>
+
+      {/* Seller share mini bar */}
+      <div className="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all ${
+            rank === 1 ? "bg-[#2D4FE5]" : "bg-slate-300"
+          }`}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      <p className="text-xs text-slate-400 mt-1">{pct}% of shops compete here</p>
+    </button>
   );
 }
 
@@ -146,13 +245,22 @@ export default function MarketEntryPage() {
   const navigate = useNavigate();
 
   const [step, setStep] = useState<Step>(1);
-  const [inputMode, setInputMode] = useState<InputMode>("dropdown");
-  const [selectedCategory, setSelectedCategory] = useState<Category>(CATEGORIES[0]);
+  const [inputMode, setInputMode] = useState<InputMode>("chips");
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [productText, setProductText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<MarketEntryResult | null>(null);
+  const [results, setResults] = useState<MarketEntryResult[]>([]);
+  const [focusedResult, setFocusedResult] = useState<MarketEntryResult | null>(null);
   const [lowConf, setLowConf] = useState<LowConfidenceResult | null>(null);
   const [barsAnimated, setBarsAnimated] = useState(false);
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  function toggleCategory(cat: Category) {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  }
 
   // ── Handlers ───────────────────────────────────────────────────────────────
 
@@ -160,16 +268,19 @@ export default function MarketEntryPage() {
     setLoading(true);
     setLowConf(null);
     try {
-      if (inputMode === "dropdown") {
-        const data = await getMarketEntryByCategory(selectedCategory);
-        setResult(data);
+      if (inputMode === "chips") {
+        const data = await analyzeMultipleCategories(selectedCategories);
+        setResults(data);
+        setFocusedResult(data[0]);
         goToStep(2);
       } else {
         const data = await analyzeMarketEntry(productText);
         if ("status" in data && data.status === "low_confidence") {
           setLowConf(data);
         } else {
-          setResult(data as MarketEntryResult);
+          const r = data as MarketEntryResult;
+          setResults([r]);
+          setFocusedResult(r);
           goToStep(2);
         }
       }
@@ -180,15 +291,16 @@ export default function MarketEntryPage() {
 
   function handlePickSuggestion(category: string) {
     setLowConf(null);
-    setInputMode("dropdown");
-    setSelectedCategory(category as Category);
+    setInputMode("chips");
+    setSelectedCategories([category as Category]);
   }
 
   async function handleConfirmSuggestion() {
     setLoading(true);
     try {
-      const data = await getMarketEntryByCategory(selectedCategory);
-      setResult(data);
+      const data = await analyzeMultipleCategories(selectedCategories);
+      setResults(data);
+      setFocusedResult(data[0]);
       goToStep(2);
     } finally {
       setLoading(false);
@@ -197,21 +309,21 @@ export default function MarketEntryPage() {
 
   function goToStep(s: Step) {
     setStep(s);
-    if (s === 2) {
-      setTimeout(() => setBarsAnimated(true), 100);
-    }
+    if (s === 2) setTimeout(() => setBarsAnimated(true), 100);
   }
 
   function reset() {
     setStep(1);
-    setResult(null);
+    setResults([]);
+    setFocusedResult(null);
     setLowConf(null);
     setProductText("");
-    setSelectedCategory(CATEGORIES[0]);
+    setSelectedCategories([]);
     setBarsAnimated(false);
   }
 
-  const gapTier = result?.all_tiers.find((t) => t.is_gap);
+  const isMulti = results.length > 1;
+  const gapTier = focusedResult?.all_tiers.find((t) => t.is_gap);
 
   // ── Render ─────────────────────────────────────────────────────────────────
 
@@ -221,11 +333,11 @@ export default function MarketEntryPage() {
 
         {/* Back nav */}
         <button
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/market-entry")}
           className="flex items-center gap-2 text-slate-500 hover:text-slate-800 mb-8 transition"
         >
           <ArrowLeft size={16} />
-          Back to Dashboard
+          Market Entry
         </button>
 
         {/* Hero */}
@@ -238,9 +350,7 @@ export default function MarketEntryPage() {
               Market Entry Analysis
             </span>
           </div>
-          <h1 className="text-4xl font-bold text-slate-900">
-            Find your market gap.
-          </h1>
+          <h1 className="text-4xl font-bold text-slate-900">Find your market gap.</h1>
           <p className="text-slate-500 mt-3 text-lg">
             Segment competitor listings by price tier and discover where competition is lowest.
           </p>
@@ -252,22 +362,17 @@ export default function MarketEntryPage() {
         {/* ── Step 1: Input ── */}
         {step === 1 && (
           <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
-
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              What are you selling?
-            </h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">What are you selling?</h2>
             <p className="text-slate-500 mb-6">
-              Pick a category directly or describe your product and we'll detect it.
+              Pick one or more categories, or describe your product and we'll detect it.
             </p>
 
             {/* Mode toggle */}
             <div className="flex gap-2 mb-6 p-1 bg-slate-100 rounded-xl w-fit">
               <button
-                onClick={() => setInputMode("dropdown")}
+                onClick={() => setInputMode("chips")}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                  inputMode === "dropdown"
-                    ? "bg-white shadow text-slate-900"
-                    : "text-slate-500"
+                  inputMode === "chips" ? "bg-white shadow text-slate-900" : "text-slate-500"
                 }`}
               >
                 Pick Category
@@ -275,38 +380,53 @@ export default function MarketEntryPage() {
               <button
                 onClick={() => setInputMode("text")}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                  inputMode === "text"
-                    ? "bg-white shadow text-slate-900"
-                    : "text-slate-500"
+                  inputMode === "text" ? "bg-white shadow text-slate-900" : "text-slate-500"
                 }`}
               >
                 Describe Product
               </button>
             </div>
 
-            {/* Dropdown mode */}
-            {inputMode === "dropdown" && (
-              <div className="relative mb-6">
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Product Category
-                </label>
-                <div className="relative">
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value as Category)}
-                    className="w-full border border-slate-200 rounded-xl px-4 py-3 appearance-none bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  >
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={16}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                  />
+            {/* Chip multi-select */}
+            {inputMode === "chips" && (
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-sm font-medium text-slate-700">
+                    Product Categories
+                  </label>
+                  {selectedCategories.length > 0 && (
+                    <span className="text-xs text-blue-600 font-medium">
+                      {selectedCategories.length} selected
+                    </span>
+                  )}
                 </div>
+                <div className="flex flex-wrap gap-2">
+                  {CATEGORIES.map((cat) => {
+                    const active = selectedCategories.includes(cat);
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => toggleCategory(cat)}
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-sm font-medium transition-all ${
+                          active
+                            ? "bg-[#2D4FE5] border-[#2D4FE5] text-white shadow-sm"
+                            : "bg-white border-slate-200 text-slate-700 hover:border-blue-300"
+                        }`}
+                      >
+                        {active && <Check size={12} />}
+                        {cat}
+                      </button>
+                    );
+                  })}
+                </div>
+                {selectedCategories.length === 0 && (
+                  <p className="text-xs text-slate-400 mt-3">Select at least one category.</p>
+                )}
+                {selectedCategories.length > 1 && (
+                  <p className="text-xs text-slate-400 mt-3">
+                    Results will be ranked by lowest competition — easiest opportunity first.
+                  </p>
+                )}
               </div>
             )}
 
@@ -343,15 +463,13 @@ export default function MarketEntryPage() {
                       key={s.category}
                       onClick={() => handlePickSuggestion(s.category)}
                       className={`px-4 py-2 rounded-xl border text-sm font-medium transition ${
-                        selectedCategory === s.category
+                        selectedCategories.includes(s.category as Category)
                           ? "bg-[#2D4FE5] text-white border-[#2D4FE5]"
                           : "bg-white border-slate-200 text-slate-700 hover:border-blue-300"
                       }`}
                     >
                       {s.category}{" "}
-                      <span className="opacity-60">
-                        {(s.score * 100).toFixed(0)}%
-                      </span>
+                      <span className="opacity-60">{(s.score * 100).toFixed(0)}%</span>
                     </button>
                   ))}
                 </div>
@@ -367,7 +485,11 @@ export default function MarketEntryPage() {
 
             <button
               onClick={handleAnalyze}
-              disabled={loading || (inputMode === "text" && !productText.trim())}
+              disabled={
+                loading ||
+                (inputMode === "chips" && selectedCategories.length === 0) ||
+                (inputMode === "text" && !productText.trim())
+              }
               className="flex items-center gap-2 bg-[#2D4FE5] hover:bg-[#2444d0] disabled:opacity-50 text-white px-6 py-3 rounded-xl font-medium transition"
             >
               {loading ? (
@@ -375,36 +497,38 @@ export default function MarketEntryPage() {
               ) : (
                 <>
                   {inputMode === "text" ? <Search size={16} /> : <ArrowRight size={16} />}
-                  {inputMode === "text" ? "Detect & Analyze" : "Analyze Market"}
+                  {inputMode === "text"
+                    ? "Detect & Analyze"
+                    : selectedCategories.length > 1
+                    ? `Analyze ${selectedCategories.length} Categories`
+                    : "Analyze Market"}
                 </>
               )}
             </button>
-
           </div>
         )}
 
-        {/* ── Step 2: Tier Landscape ── */}
-        {step === 2 && result && (
+        {/* ── Step 2a: Single-category tier landscape ── */}
+        {step === 2 && !isMulti && focusedResult && (
           <div className="space-y-6">
-
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
               <div className="flex items-start justify-between mb-1">
                 <h2 className="text-2xl font-bold text-slate-900">
-                  {result.category} Market Landscape
+                  {focusedResult.category} Market Landscape
                 </h2>
                 <span className="bg-blue-50 text-blue-600 text-xs font-semibold px-3 py-1 rounded-full">
-                  {result.n_competitors.toLocaleString()} competitors
+                  {focusedResult.n_competitors.toLocaleString()} listings
                 </span>
               </div>
               <p className="text-slate-500 mb-8">
-                Price tiers ranked by seller share. A smaller share means fewer sellers — lower competition.
+                Price tiers ranked by seller share. Smaller share means fewer sellers — lower competition.
               </p>
-
               <div className="space-y-3">
-                {result.all_tiers.map((tier) => (
+                {focusedResult.all_tiers.map((tier) => (
                   <TierBar
                     key={tier.tier}
                     tier={tier.tier}
+                    shopCount={tier.shop_count}
                     gapShare={tier.gap_share}
                     isGap={tier.is_gap}
                     priceRange={tier.price_range}
@@ -428,27 +552,86 @@ export default function MarketEntryPage() {
                 See Gap Analysis <ArrowRight size={16} />
               </button>
             </div>
+          </div>
+        )}
 
+        {/* ── Step 2b: Multi-category ranked comparison ── */}
+        {step === 2 && isMulti && (
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-1">
+                Category Comparison
+              </h2>
+              <p className="text-slate-500 mb-2">
+                Ranked by lowest seller share in the gap tier — #1 is your best opportunity.
+              </p>
+              <p className="text-xs text-slate-400 mb-8">
+                Select a category to explore its gap analysis.
+              </p>
+
+              <div className="space-y-3">
+                {results.map((r, i) => (
+                  <RankCard
+                    key={r.category}
+                    result={r}
+                    rank={i + 1}
+                    selected={focusedResult?.category === r.category}
+                    onSelect={() => setFocusedResult(r)}
+                  />
+                ))}
+              </div>
+
+              {/* Ranking footnote */}
+              <p className="text-xs text-slate-400 mt-6 flex items-center gap-1">
+                <ChevronRight size={12} />
+                Ranking signal: gap tier seller share (lower % = less competition)
+              </p>
+            </div>
+
+            <div className="flex justify-between">
+              <button
+                onClick={() => setStep(1)}
+                className="flex items-center gap-2 border border-slate-200 hover:border-slate-400 px-5 py-3 rounded-xl text-slate-600 transition"
+              >
+                <ArrowLeft size={16} /> Back
+              </button>
+              <button
+                onClick={() => goToStep(3)}
+                disabled={!focusedResult}
+                className="flex items-center gap-2 bg-[#2D4FE5] hover:bg-[#2444d0] disabled:opacity-50 text-white px-6 py-3 rounded-xl font-medium transition"
+              >
+                Analyze{" "}
+                {focusedResult
+                  ? `${focusedResult.category} Gap`
+                  : "Selected"}{" "}
+                <ArrowRight size={16} />
+              </button>
+            </div>
           </div>
         )}
 
         {/* ── Step 3: Gap Highlight ── */}
-        {step === 3 && result && gapTier && (
+        {step === 3 && focusedResult && gapTier && (
           <div className="space-y-6">
-
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
               <div className="flex items-center gap-2 mb-6">
                 <Target size={20} className="text-[#2D4FE5]" />
                 <span className="text-[#2D4FE5] font-semibold text-sm uppercase tracking-wide">
                   Opportunity Found
                 </span>
+                {isMulti && (
+                  <span className="ml-auto text-xs text-slate-400">
+                    Showing: {focusedResult.category}
+                  </span>
+                )}
               </div>
 
               <h2 className="text-2xl font-bold text-slate-900 mb-2">
                 The <span className="text-[#2D4FE5]">{gapTier.tier} tier</span> is underserved
               </h2>
               <p className="text-slate-500 mb-8">
-                Only {(gapTier.gap_share * 100).toFixed(1)}% of sellers compete here — the lowest in {result.category}.
+                Only {(gapTier.gap_share * 100).toFixed(1)}% of sellers compete here — the lowest in{" "}
+                {focusedResult.category}.
               </p>
 
               {/* Gap tier card */}
@@ -459,24 +642,23 @@ export default function MarketEntryPage() {
                     RECOMMENDED
                   </span>
                 </div>
-
                 <div className="grid grid-cols-3 gap-4">
                   <div className="bg-white rounded-xl p-4 text-center">
                     <p className="text-xs text-slate-400 mb-1">Entry (P25)</p>
                     <p className="text-lg font-bold text-slate-800">
-                      {formatRupiah(result.entry_price_range.p25)}
+                      {formatRupiah(focusedResult.entry_price_range.p25)}
                     </p>
                   </div>
                   <div className="bg-white rounded-xl p-4 text-center border-2 border-blue-200">
                     <p className="text-xs text-slate-400 mb-1">Median</p>
                     <p className="text-lg font-bold text-[#2D4FE5]">
-                      {formatRupiah(result.entry_price_range.median)}
+                      {formatRupiah(focusedResult.entry_price_range.median)}
                     </p>
                   </div>
                   <div className="bg-white rounded-xl p-4 text-center">
                     <p className="text-xs text-slate-400 mb-1">Upper (P75)</p>
                     <p className="text-lg font-bold text-slate-800">
-                      {formatRupiah(result.entry_price_range.p75)}
+                      {formatRupiah(focusedResult.entry_price_range.p75)}
                     </p>
                   </div>
                 </div>
@@ -486,24 +668,55 @@ export default function MarketEntryPage() {
               <div className="grid grid-cols-3 gap-4">
                 <div className="rounded-xl bg-slate-50 p-4 text-center">
                   <p className="text-2xl font-bold text-slate-800">
-                    {result.n_competitors.toLocaleString()}
+                    {focusedResult.n_competitors.toLocaleString()}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">Total Competitors</p>
+                  <p className="text-xs text-slate-400 mt-1">Total Listings</p>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-4 text-center">
                   <p className="text-2xl font-bold text-slate-800">
-                    {(gapTier.gap_share * 100).toFixed(0)}%
+                    {gapTier.shop_count.toLocaleString()}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">Sellers in Gap Tier</p>
+                  <p className="text-xs text-slate-400 mt-1">Shops in Gap Tier</p>
                 </div>
                 <div className="rounded-xl bg-slate-50 p-4 text-center">
                   <p className="text-2xl font-bold text-slate-800">
-                    {(result.confidence * 100).toFixed(0)}%
+                    {(focusedResult.confidence * 100).toFixed(0)}%
                   </p>
                   <p className="text-xs text-slate-400 mt-1">Detection Confidence</p>
                 </div>
               </div>
 
+              {/* Trend signal (if enriched) */}
+              {focusedResult.trend_signal !== undefined && (
+                <div
+                  className={`mt-4 flex items-center gap-3 rounded-xl px-5 py-3 border ${
+                    focusedResult.trend_direction === "rising"
+                      ? "bg-emerald-50 border-emerald-200"
+                      : "bg-slate-50 border-slate-200"
+                  }`}
+                >
+                  {focusedResult.trend_direction === "rising" ? (
+                    <TrendingUp size={18} className="text-emerald-600 shrink-0" />
+                  ) : (
+                    <TrendingDown size={18} className="text-slate-400 shrink-0" />
+                  )}
+                  <div>
+                    <p
+                      className={`text-sm font-semibold ${
+                        focusedResult.trend_direction === "rising"
+                          ? "text-emerald-700"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      Google Trends: {focusedResult.trend_signal}/100 —{" "}
+                      {focusedResult.trend_direction === "rising"
+                        ? "Rising demand"
+                        : "Stable demand"}
+                    </p>
+                    <p className="text-xs text-slate-400">12-month average, Indonesia</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-between">
@@ -520,14 +733,12 @@ export default function MarketEntryPage() {
                 Get Your Strategy <ArrowRight size={16} />
               </button>
             </div>
-
           </div>
         )}
 
-        {/* ── Step 4: CTA ── */}
-        {step === 4 && result && gapTier && (
+        {/* ── Step 4: Strategy CTA ── */}
+        {step === 4 && focusedResult && gapTier && (
           <div className="space-y-6">
-
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
               <div className="flex items-center gap-2 mb-6">
                 <Zap size={20} className="text-[#2D4FE5]" />
@@ -537,47 +748,69 @@ export default function MarketEntryPage() {
               </div>
 
               <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                Enter at the{" "}
-                <span className={`${TIER_LIGHT[gapTier.tier] ?? ""} px-2 py-0.5 rounded-lg border`}>
-                  {gapTier.tier}
-                </span>{" "}
-                tier
+                {focusedResult.recommended_tier ? (
+                  <>
+                    Enter at the{" "}
+                    <span
+                      className={`${TIER_LIGHT[gapTier.tier] ?? ""} px-2 py-0.5 rounded-lg border`}
+                    >
+                      {gapTier.tier}
+                    </span>{" "}
+                    tier
+                  </>
+                ) : (
+                  "No clear gap tier — all tiers are competitive"
+                )}
               </h2>
               <p className="text-slate-500 mb-8">
-                Compete in <strong>{result.category}</strong> with the lowest seller density.
+                Compete in <strong>{focusedResult.category}</strong> with the lowest seller density.
               </p>
 
               {/* Main CTA card */}
               <div className="bg-gradient-to-br from-[#2D4FE5] to-indigo-600 rounded-2xl p-8 text-white mb-6">
                 <p className="text-blue-200 text-sm mb-2">Recommended entry price range</p>
                 <p className="text-4xl font-bold mb-1">
-                  {formatRupiah(result.entry_price_range.p25)}{" "}
+                  {formatRupiah(focusedResult.entry_price_range.p25)}{" "}
                   <span className="text-blue-300">–</span>{" "}
-                  {formatRupiah(result.entry_price_range.p75)}
+                  {formatRupiah(focusedResult.entry_price_range.p75)}
                 </p>
                 <p className="text-blue-200 text-sm mt-1">
-                  Median market price: {formatRupiah(result.entry_price_range.median)}
+                  Median market price: {formatRupiah(focusedResult.entry_price_range.median)}
                 </p>
 
                 <div className="mt-6 pt-6 border-t border-white/20 grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-blue-200">Category</p>
-                    <p className="font-semibold">{result.category}</p>
+                    <p className="font-semibold">{focusedResult.category}</p>
                   </div>
                   <div>
                     <p className="text-blue-200">Recommended Tier</p>
-                    <p className="font-semibold">{result.recommended_tier}</p>
+                    <p className="font-semibold">{focusedResult.recommended_tier ?? "—"}</p>
                   </div>
                   <div>
-                    <p className="text-blue-200">Competitors in Tier</p>
-                    <p className="font-semibold">
-                      ~{Math.round(result.n_competitors * gapTier.gap_share).toLocaleString()} sellers
-                    </p>
+                    <p className="text-blue-200">Shops in Gap Tier</p>
+                    <p className="font-semibold">{gapTier.shop_count.toLocaleString()} shops</p>
                   </div>
                   <div>
                     <p className="text-blue-200">Seller Share</p>
-                    <p className="font-semibold">{result.seller_share}</p>
+                    <p className="font-semibold">{focusedResult.seller_share}</p>
                   </div>
+                  {focusedResult.trend_signal !== undefined && (
+                    <div className="col-span-2">
+                      <p className="text-blue-200">Google Trends (12-month, ID)</p>
+                      <p className="font-semibold flex items-center gap-1.5">
+                        {focusedResult.trend_signal}/100
+                        {focusedResult.trend_direction === "rising" ? (
+                          <TrendingUp size={14} className="text-emerald-300" />
+                        ) : (
+                          <TrendingDown size={14} className="text-blue-300" />
+                        )}
+                        <span className="font-normal text-blue-200 capitalize">
+                          {focusedResult.trend_direction}
+                        </span>
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -585,7 +818,7 @@ export default function MarketEntryPage() {
               <div className="mb-2">
                 <p className="text-sm font-medium text-slate-600 mb-3">All price tiers:</p>
                 <div className="flex flex-wrap gap-2">
-                  {result.all_tiers.map((tier) => (
+                  {focusedResult.all_tiers.map((tier) => (
                     <div
                       key={tier.tier}
                       className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm ${
@@ -608,6 +841,35 @@ export default function MarketEntryPage() {
                 </div>
               </div>
 
+              {/* Compare other categories link (multi mode) */}
+              {isMulti && results.length > 1 && (
+                <div className="mt-6 pt-6 border-t border-slate-100">
+                  <p className="text-sm text-slate-500 mb-3">Other categories you analyzed:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {results
+                      .filter((r) => r.category !== focusedResult.category)
+                      .map((r) => {
+                        const rGap = r.all_tiers.find((t) => t.is_gap);
+                        return (
+                          <button
+                            key={r.category}
+                            onClick={() => {
+                              setFocusedResult(r);
+                              setStep(3);
+                            }}
+                            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 text-sm hover:border-blue-300 transition"
+                          >
+                            {r.category}
+                            <span className="text-xs text-slate-400">
+                              {rGap ? `${(rGap.gap_share * 100).toFixed(0)}%` : ""}
+                            </span>
+                            <ChevronRight size={12} className="text-slate-400" />
+                          </button>
+                        );
+                      })}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-between">
@@ -618,13 +880,12 @@ export default function MarketEntryPage() {
                 <ArrowLeft size={16} /> Analyze Another
               </button>
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/market-entry")}
                 className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-xl font-medium transition"
               >
-                Back to Dashboard
+                Market Entry
               </button>
             </div>
-
           </div>
         )}
 

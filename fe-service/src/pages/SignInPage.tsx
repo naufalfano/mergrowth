@@ -33,8 +33,8 @@ export default function SignInPage() {
       <div className="flex flex-col w-full max-w-xl px-10 lg:px-16">
         {/* Logo pinned to top */}
         <div className="pt-10 pb-0 flex flex-col gap-1">
-          <span className="text-2xl font-bold tracking-tight text-black">mergrowth</span>
-          <span className="text-sm font-normal text-gray-400">Helping Indonesia SME's merchant to achieve growth.</span>
+          <img src="/logo.png" alt="mergrowth" className="h-10 w-auto object-contain object-left" />
+          <span className="text-sm font-normal text-gray-400 mt-1">Helping Indonesia SME's merchant to achieve growth.</span>
         </div>
 
         {/* Form centered in remaining space */}

@@ -24,3 +24,9 @@ def signin(payload: SignInRequest):
 def signout(current_user: dict = Depends(get_current_user)):
     auth_controller.sign_out(current_user["token"])
     return ApiResponse(success=True, message="Signed out successfully")
+
+
+@router.post("/complete-onboarding", response_model=ApiResponse[None])
+def complete_onboarding(current_user: dict = Depends(get_current_user)):
+    auth_controller.complete_onboarding(current_user["user_id"])
+    return ApiResponse(success=True, message="Onboarding completed")

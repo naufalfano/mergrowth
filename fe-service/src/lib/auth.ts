@@ -7,6 +7,7 @@ export interface AuthResponse {
   email: string;
   full_name: string | null;
   role: string | null;
+  onboarding_completed: boolean;
 }
 
 export async function signUp(email: string, password: string, full_name: string): Promise<AuthResponse> {
@@ -21,6 +22,10 @@ export async function signIn(email: string, password: string): Promise<AuthRespo
 
 export async function signOut(): Promise<void> {
   await api.post("/api/v1/auth/signout");
+}
+
+export async function completeOnboarding(): Promise<void> {
+  await api.post("/api/v1/auth/complete-onboarding");
 }
 
 export function saveSession(data: AuthResponse) {

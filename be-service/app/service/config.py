@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 30
     cors_origins: List[str] = ["http://localhost:5173"]
     ml_service_url: str = "http://localhost:8001"
+    gemini_api_key: str = ""
 
     class Config:
         env_file = ".env"

@@ -20,7 +20,7 @@ export default function SignUpPage() {
     try {
       const data = await signUp(email, password, fullName);
       saveSession(data);
-      navigate("/dashboard");
+      navigate(data.onboarding_completed ? "/dashboard" : "/onboarding");
     } catch (err: any) {
       setError(err?.response?.data?.detail ?? "Something went wrong.");
     } finally {
@@ -34,8 +34,8 @@ export default function SignUpPage() {
       <div className="flex flex-col w-full max-w-xl px-10 lg:px-16">
         {/* Logo pinned to top */}
         <div className="pt-10 flex flex-col gap-1">
-          <span className="text-2xl font-bold tracking-tight text-black">mergrowth</span>
-          <span className="text-sm font-normal text-gray-400">Helping Indonesia SME's merchant to achieve growth.</span>
+          <img src="/logo.png" alt="mergrowth" className="h-10 w-auto object-contain object-left" />
+          <span className="text-sm font-normal text-gray-400 mt-1">Helping Indonesia SME's merchant to achieve growth.</span>
         </div>
 
         {/* Form centered */}

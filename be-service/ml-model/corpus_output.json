@@ -1,0 +1,130 @@
+{
+  "results": [
+    {
+      "category": "elektronik",
+      "top_terms": [
+        {
+          "term": "barang",
+          "score": 0.9212,
+          "sentiment": "positive",
+          "freq": 5513
+        },
+        {
+          "term": "cepat",
+          "score": 0.8256,
+          "sentiment": "positive",
+          "freq": 3480
+        },
+        {
+          "term": "sesuai",
+          "score": 0.6506,
+          "sentiment": "positive",
+          "freq": 3180
+        },
+        {
+          "term": "terima",
+          "score": 0.5975,
+          "sentiment": "positive",
+          "freq": 2420
+        },
+        {
+          "term": "baik",
+          "score": 0.5565,
+          "sentiment": "positive",
+          "freq": 2053
+        },
+        {
+          "term": "bagus",
+          "score": 0.5543,
+          "sentiment": "positive",
+          "freq": 1697
+        },
+        {
+          "term": "sampai",
+          "score": 0.5086,
+          "sentiment": "positive",
+          "freq": 1744
+        },
+        {
+          "term": "terima kasih",
+          "score": 0.4962,
+          "sentiment": "positive",
+          "freq": 1015
+        },
+        {
+          "term": "gan",
+          "score": 0.47,
+          "sentiment": "positive",
+          "freq": 3573
+        },
+        {
+          "term": "barang sesuai",
+          "score": 0.4623,
+          "sentiment": "positive",
+          "freq": 1090
+        },
+        {
+          "term": "respon",
+          "score": 0.4607,
+          "sentiment": "positive",
+          "freq": 2340
+        },
+        {
+          "term": "respon cepat",
+          "score": 0.376,
+          "sentiment": "positive",
+          "freq": 585
+        },
+        {
+          "term": "barang sampai",
+          "score": 0.3695,
+          "sentiment": "positive",
+          "freq": 178
+        },
+        {
+          "term": "barang bagus",
+          "score": 0.3664,
+          "sentiment": "positive",
+          "freq": 520
+        },
+        {
+          "term": "kasih",
+          "score": 0.3614,
+          "sentiment": "positive",
+          "freq": 1953
+        },
+        {
+          "term": "produk",
+          "score": 0.3296,
+          "sentiment": "positive",
+          "freq": 1073
+        },
+        {
+          "term": "packing",
+          "score": 0.3276,
+          "sentiment": "positive",
+          "freq": 981
+        },
+        {
+          "term": "sesuai deskripsi",
+          "score": 0.3206,
+          "sentiment": "positive",
+          "freq": 659
+        },
+        {
+          "term": "pengiriman cepat",
+          "score": 0.3001,
+          "sentiment": "positive",
+          "freq": 982
+        },
+        {
+          "term": "kirim",
+          "score": 0.2909,
+          "sentiment": "positive",
+          "freq": 415
+        }
+      ],
+      "total_reviews_analyzed": 11102
+    }
+  ]
+}

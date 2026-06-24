@@ -8,7 +8,11 @@ import ProductPage from "@/pages/ProductPage";
 import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
 import DemandForecastPage from "@/pages/DemandForecastPage";
+import MarketEntryHubPage from "@/pages/MarketEntryHubPage";
 import MarketEntryPage from "@/pages/MarketEntryPage";
+import CorpusAnalysisPage from "@/pages/CorpusAnalysisPage";
+import BrandAdvisorPage from "@/pages/BrandAdvisorPage";
+import OnboardingPage from "@/pages/OnboardingPage";
 
 export default function App() {
   return (
@@ -60,7 +64,39 @@ export default function App() {
         path="/market-entry"
         element={
           <ProtectedRoute>
+            <MarketEntryHubPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market-entry/gap"
+        element={
+          <ProtectedRoute>
             <MarketEntryPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market-entry/competitor-review"
+        element={
+          <ProtectedRoute>
+            <CorpusAnalysisPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market-entry/ai-advisor"
+        element={
+          <ProtectedRoute>
+            <BrandAdvisorPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/onboarding"
+        element={
+          <ProtectedRoute>
+            <OnboardingPage />
           </ProtectedRoute>
         }
       />

@@ -24,7 +24,7 @@ def sign_up(payload: SignUpRequest) -> AuthResponse:
 
     profile = (
         supabase.table("user_acc")
-        .select("full_name, role")
+        .select("full_name, role, onboarding_completed")
         .eq("id", res.user.id)
         .single()
         .execute()
@@ -37,6 +37,7 @@ def sign_up(payload: SignUpRequest) -> AuthResponse:
         email=res.user.email,
         full_name=profile.data.get("full_name") if profile.data else payload.full_name,
         role=profile.data.get("role") if profile.data else "user",
+        onboarding_completed=profile.data.get("onboarding_completed", False) if profile.data else False,
     )
 
 
@@ -54,7 +55,7 @@ def sign_in(payload: SignInRequest) -> AuthResponse:
 
     profile = (
         supabase.table("user_acc")
-        .select("full_name, role")
+        .select("full_name, role, onboarding_completed")
         .eq("id", res.user.id)
         .single()
         .execute()
@@ -67,6 +68,7 @@ def sign_in(payload: SignInRequest) -> AuthResponse:
         email=res.user.email,
         full_name=profile.data.get("full_name"),
         role=profile.data.get("role"),
+        onboarding_completed=profile.data.get("onboarding_completed", False),
     )
 
 
@@ -75,3 +77,9 @@ def sign_out(token: str) -> None:
         supabase.auth.sign_out()
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+def complete_onboarding(user_id: str) -> None:
+    supabase.table("user_acc").update(
+        {"onboarding_completed": True}
+    ).eq("id", user_id).execute()
