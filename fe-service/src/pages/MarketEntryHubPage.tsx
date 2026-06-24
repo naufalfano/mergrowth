@@ -21,9 +21,9 @@ const FEATURES = [
     icon: BookOpen,
     iconBg: "bg-violet-600",
     hoverTitle: "group-hover:text-violet-600",
-    title: "Competitor Review Intelligence",
+    title: "Competitor Review Analysis",
     description:
-      "Extract top keywords and keyphrases from thousands of competitor reviews. Understand what customers value most — with sentiment analysis per term.",
+      "Extract top keywords and keyphrases from thousands of competitor reviews. Understand what customers value most.",
     highlights: ["TF-IDF + KeyBERT ranking", "Sentiment polarity", "Phrase detection"],
     badge: "NLP",
     badgeColor: "bg-violet-50 text-violet-600",
@@ -36,7 +36,7 @@ const FEATURES = [
     hoverTitle: "group-hover:text-amber-600",
     title: "AI Brand Advisor",
     description:
-      "Combines market gap data and competitor review insights to generate brand positioning, tone, key messages, and content strategy — powered by AI.",
+      "Combines market gap data and competitor review insights to generate brand positioning, tone, key messages, and content strategy.",
     highlights: ["Brand tone archetype", "Price positioning advice", "Content strategy"],
     badge: "AI",
     badgeColor: "bg-amber-50 text-amber-600",
@@ -73,9 +73,8 @@ export default function MarketEntryHubPage() {
           </p>
         </div>
 
-        {/* Top row: two analytic tools */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-          {FEATURES.slice(0, 2).map((feat) => {
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {FEATURES.map((feat) => {
             const Icon = feat.icon;
             return (
               <button
@@ -114,54 +113,6 @@ export default function MarketEntryHubPage() {
             );
           })}
         </div>
-
-        {/* Bottom row: AI advisor — full width, visually distinct */}
-        {(() => {
-          const feat = FEATURES[2];
-          const Icon = feat.icon;
-          return (
-            <button
-              onClick={() => navigate(feat.path)}
-              className="group w-full text-left bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl border border-amber-100 p-7 hover:border-amber-200 hover:shadow-md transition-all duration-200"
-            >
-              <div className="flex items-start justify-between">
-                {/* Left: icon + content */}
-                <div className="flex items-start gap-5 flex-1">
-                  <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center shrink-0">
-                    <Icon size={22} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h2 className="text-lg font-bold text-gray-900 group-hover:text-amber-600 transition-colors">
-                        {feat.title}
-                      </h2>
-                      <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-600">
-                        {feat.badge}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-500 leading-relaxed mb-4 max-w-xl">
-                      {feat.description}
-                    </p>
-                    <div className="flex flex-wrap gap-x-5 gap-y-1">
-                      {feat.highlights.map((h) => (
-                        <div key={h} className="flex items-center gap-2">
-                          <span className="w-1 h-1 rounded-full bg-amber-300 shrink-0" />
-                          <span className="text-xs text-gray-500">{h}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right: CTA */}
-                <div className="flex items-center gap-1.5 text-sm font-semibold text-gray-900 group-hover:gap-2.5 transition-all shrink-0 ml-6 mt-1">
-                  Open tool
-                  <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-                </div>
-              </div>
-            </button>
-          );
-        })()}
       </div>
     </div>
   );

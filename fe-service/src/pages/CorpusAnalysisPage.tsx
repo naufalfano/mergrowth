@@ -177,13 +177,46 @@ export default function CorpusAnalysisPage() {
 
       <div className="max-w-5xl mx-auto px-8 py-10">
 
-        {/* Page intro */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">What do customers value?</h1>
-          <p className="text-sm text-gray-400 mt-1">
-            Extract top keywords and keyphrases from competitor reviews — ranked by relevance,
-            with sentiment polarity per term.
-          </p>
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-gray-50 to-violet-50 rounded-[32px] p-10 mb-8 flex items-center justify-between gap-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-2xl bg-violet-600 flex items-center justify-center">
+                <BookOpen size={20} className="text-white" />
+              </div>
+              <span className="text-violet-600 font-semibold text-sm uppercase tracking-wide">
+                Competitor Review Intelligence
+              </span>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900">What do customers value?</h1>
+            <p className="text-slate-500 mt-3 text-lg">
+              Extract top keywords from competitor reviews, ranked by relevance with sentiment per term.
+            </p>
+          </div>
+          <div className="shrink-0 w-56 h-36 hidden md:block opacity-90">
+            <svg viewBox="0 0 220 140" fill="none" className="w-full h-full">
+              <rect x="10" y="8" width="155" height="32" rx="7" fill="#f5f3ff" stroke="#ede9fe" strokeWidth="1" />
+              <rect x="20" y="17" width="45" height="6" rx="3" fill="#c4b5fd" />
+              <rect x="70" y="17" width="30" height="6" rx="3" fill="#ddd6fe" />
+              <rect x="20" y="27" width="60" height="5" rx="2.5" fill="#ede9fe" />
+              <circle cx="182" cy="24" r="10" fill="#10b981" opacity="0.15" />
+              <circle cx="182" cy="24" r="6" fill="#10b981" />
+
+              <rect x="10" y="50" width="155" height="32" rx="7" fill="#f5f3ff" stroke="#ede9fe" strokeWidth="1" />
+              <rect x="20" y="59" width="35" height="6" rx="3" fill="#ddd6fe" />
+              <rect x="60" y="59" width="50" height="6" rx="3" fill="#c4b5fd" />
+              <rect x="20" y="69" width="55" height="5" rx="2.5" fill="#ede9fe" />
+              <circle cx="182" cy="66" r="10" fill="#ef4444" opacity="0.15" />
+              <circle cx="182" cy="66" r="6" fill="#ef4444" />
+
+              <rect x="10" y="92" width="155" height="32" rx="7" fill="#f5f3ff" stroke="#ede9fe" strokeWidth="1" />
+              <rect x="20" y="101" width="55" height="6" rx="3" fill="#c4b5fd" />
+              <rect x="80" y="101" width="40" height="6" rx="3" fill="#ddd6fe" />
+              <rect x="20" y="111" width="45" height="5" rx="2.5" fill="#ede9fe" />
+              <circle cx="182" cy="108" r="10" fill="#10b981" opacity="0.15" />
+              <circle cx="182" cy="108" r="6" fill="#10b981" />
+            </svg>
+          </div>
         </div>
 
         {/* Category selector card */}

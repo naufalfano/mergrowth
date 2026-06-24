@@ -1,14 +1,13 @@
 """
-Brand Advisor Service — Gemini-powered brand strategy generator.
+Brand Advisor Service — HuggingFace-powered brand strategy generator.
 
 Combines market gap data and competitor review corpus to prompt
-Gemini 1.5 Flash and returns a structured brand strategy JSON.
+Mistral-7B-Instruct and returns a structured brand strategy JSON.
 """
 import json
 import re
 
-from google import genai
-from google.genai import types
+from huggingface_hub import InferenceClient
 
 from app.service.config import settings
 
@@ -125,32 +124,30 @@ Aturan:
 
 
 def _extract_json(text: str) -> dict:
-    """Extract and parse JSON from Gemini response (handles markdown code fences)."""
-    # Strip markdown fences if present
+    """Extract and parse JSON from LLM response (handles markdown code fences)."""
     text = re.sub(r"```(?:json)?", "", text).strip()
-    # Find the outermost JSON object
     match = re.search(r"\{.*\}", text, re.DOTALL)
     if not match:
-        raise ValueError(f"No JSON found in Gemini response: {text[:200]}")
+        raise ValueError(f"No JSON found in response: {text[:200]}")
     return json.loads(match.group())
 
 
 def generate_brand_strategy(corpus_category: str, market: dict, corpus: dict | None) -> dict:
-    if not settings.gemini_api_key:
-        raise ValueError("GEMINI_API_KEY is not configured in environment variables.")
+    if not settings.huggingface_api_key:
+        raise ValueError("HUGGINGFACE_API_KEY is not configured in environment variables.")
 
-    client = genai.Client(api_key=settings.gemini_api_key)
+    client = InferenceClient(
+        model="Qwen/Qwen2.5-72B-Instruct",
+        token=settings.huggingface_api_key,
+    )
     prompt = _build_prompt(corpus_category, market, corpus)
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            temperature=0.7,
-            max_output_tokens=1500,
-        ),
+    response = client.chat.completions.create(
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=1500,
+        temperature=0.7,
     )
-
-    result = _extract_json(response.text)
+    text = response.choices[0].message.content
+    result = _extract_json(text)
     result["category"] = corpus_category
     return result

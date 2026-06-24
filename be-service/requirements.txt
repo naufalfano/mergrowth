@@ -12,8 +12,8 @@ scikit-learn
 joblib
 numpy
 pandas
-# gemini
-google-genai
+# llm
+huggingface_hub
 # corpus pipeline
 keybert
 sentence-transformers

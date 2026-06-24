@@ -245,18 +245,48 @@ export default function BrandAdvisorPage() {
 
       <div className="max-w-4xl mx-auto px-8 py-10">
 
-        {/* Page header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-bold text-amber-600 uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-full">
-              AI-Powered
-            </span>
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-[32px] p-10 mb-8 flex items-center justify-between gap-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500 flex items-center justify-center">
+                <Sparkles size={20} className="text-white" />
+              </div>
+              <span className="text-amber-600 font-semibold text-sm uppercase tracking-wide">
+                AI-Powered Strategy
+              </span>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900">AI Brand Advisor</h1>
+            <p className="text-slate-500 mt-3 text-lg">
+              Combines market gap data and competitor reviews to generate your brand strategy.
+            </p>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">AI Brand Advisor</h1>
-          <p className="text-sm text-gray-400 mt-1.5">
-            Combines market gap data and competitor review intelligence to generate
-            brand positioning, messaging strategy, and tone recommendations.
-          </p>
+          <div className="shrink-0 w-56 h-36 hidden md:block opacity-90">
+            <svg viewBox="0 0 220 140" fill="none" className="w-full h-full">
+              <rect x="5" y="18" width="70" height="32" rx="7" fill="#fef3c7" stroke="#fde68a" strokeWidth="1.5" />
+              <rect x="14" y="27" width="22" height="5" rx="2.5" fill="#fcd34d" />
+              <rect x="14" y="35" width="42" height="5" rx="2.5" fill="#fde68a" />
+              <text x="40" y="62" fontSize="7" fill="#92400e" textAnchor="middle" fontWeight="600">Market Data</text>
+
+              <rect x="5" y="82" width="70" height="32" rx="7" fill="#fef3c7" stroke="#fde68a" strokeWidth="1.5" />
+              <rect x="14" y="91" width="32" height="5" rx="2.5" fill="#fcd34d" />
+              <rect x="14" y="99" width="46" height="5" rx="2.5" fill="#fde68a" />
+              <text x="40" y="126" fontSize="7" fill="#92400e" textAnchor="middle" fontWeight="600">Reviews</text>
+
+              <path d="M75 34 C107 34 107 70 139 70" stroke="#fbbf24" strokeWidth="2" strokeDasharray="4 3" strokeLinecap="round" />
+              <path d="M75 98 C107 98 107 70 139 70" stroke="#fbbf24" strokeWidth="2" strokeDasharray="4 3" strokeLinecap="round" />
+
+              <rect x="139" y="44" width="76" height="52" rx="10" fill="#f59e0b" />
+              <text x="177" y="64" fontSize="8.5" fill="white" textAnchor="middle" fontWeight="700">Brand</text>
+              <text x="177" y="76" fontSize="8.5" fill="white" textAnchor="middle" fontWeight="700">Strategy</text>
+              <text x="177" y="87" fontSize="6" fill="#fff7ed" textAnchor="middle">AI Generated</text>
+
+              <circle cx="198" cy="30" r="3.5" fill="#fbbf24" opacity="0.6" />
+              <circle cx="210" cy="20" r="2.5" fill="#fbbf24" opacity="0.4" />
+              <circle cx="186" cy="16" r="2" fill="#fbbf24" opacity="0.4" />
+              <circle cx="212" cy="42" r="2" fill="#fbbf24" opacity="0.3" />
+            </svg>
+          </div>
         </div>
 
         {/* Category selector */}

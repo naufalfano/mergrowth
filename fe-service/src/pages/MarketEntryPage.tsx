@@ -341,19 +341,41 @@ export default function MarketEntryPage() {
         </button>
 
         {/* Hero */}
-        <div className="bg-gradient-to-br from-slate-50 to-indigo-100 rounded-[32px] p-10 mb-10">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center">
-              <TrendingUp size={20} className="text-white" />
+        <div className="bg-gradient-to-br from-slate-50 to-indigo-100 rounded-[32px] p-10 mb-10 flex items-center justify-between gap-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center">
+                <TrendingUp size={20} className="text-white" />
+              </div>
+              <span className="text-blue-600 font-semibold text-sm uppercase tracking-wide">
+                Market Entry Analysis
+              </span>
             </div>
-            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wide">
-              Market Entry Analysis
-            </span>
+            <h1 className="text-4xl font-bold text-slate-900">Find your market gap.</h1>
+            <p className="text-slate-500 mt-3 text-lg">
+              Segment competitor listings by price tier and discover where competition is lowest.
+            </p>
           </div>
-          <h1 className="text-4xl font-bold text-slate-900">Find your market gap.</h1>
-          <p className="text-slate-500 mt-3 text-lg">
-            Segment competitor listings by price tier and discover where competition is lowest.
-          </p>
+          <div className="shrink-0 w-56 h-36 hidden md:block opacity-90">
+            <svg viewBox="0 0 220 140" fill="none" className="w-full h-full">
+              <line x1="20" y1="20" x2="210" y2="20" stroke="#dbeafe" strokeWidth="1" />
+              <line x1="20" y1="50" x2="210" y2="50" stroke="#dbeafe" strokeWidth="1" />
+              <line x1="20" y1="80" x2="210" y2="80" stroke="#dbeafe" strokeWidth="1" />
+              <line x1="20" y1="110" x2="210" y2="110" stroke="#dbeafe" strokeWidth="1" />
+              <rect x="25" y="85" width="28" height="25" rx="4" fill="#bfdbfe" />
+              <rect x="62" y="65" width="28" height="45" rx="4" fill="#93c5fd" />
+              <rect x="99" y="22" width="28" height="88" rx="4" fill="#2563eb" />
+              <rect x="136" y="70" width="28" height="40" rx="4" fill="#93c5fd" />
+              <rect x="173" y="92" width="28" height="18" rx="4" fill="#bfdbfe" />
+              <rect x="94" y="10" width="38" height="13" rx="3.5" fill="#1d4ed8" />
+              <text x="113" y="20" fontSize="7" fill="white" textAnchor="middle" fontWeight="700">GAP</text>
+              <text x="39" y="126" fontSize="6" fill="#93c5fd" textAnchor="middle">Budget</text>
+              <text x="76" y="126" fontSize="6" fill="#93c5fd" textAnchor="middle">Low</text>
+              <text x="113" y="126" fontSize="6" fill="#1d4ed8" textAnchor="middle" fontWeight="700">Mid</text>
+              <text x="150" y="126" fontSize="6" fill="#93c5fd" textAnchor="middle">High</text>
+              <text x="187" y="126" fontSize="6" fill="#93c5fd" textAnchor="middle">Premium</text>
+            </svg>
+          </div>
         </div>
 
         {/* Stepper */}
