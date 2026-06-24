@@ -19,6 +19,8 @@ import SalesPage from "@/pages/marketing/SalesPage";
 import NettPage from "@/pages/marketing/NettPage";
 import ProductInsightPage from "@/pages/marketing/ProductInsightPage";
 import RecommendationPage from "@/pages/marketing/RecommendationPage";
+import RestockRecommendationPage from "./pages/RestockRecommendationPage";
+import PriceAnalysisPage from "./pages/PriceAnalysisPage";
 
 export default function App() {
   return (
@@ -117,6 +119,22 @@ export default function App() {
         element={
           <ProtectedRoute>
             <OnboardingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/restock-recommendation"
+        element={
+          <ProtectedRoute>
+            <RestockRecommendationPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/price-analysis"
+        element={
+          <ProtectedRoute>
+            <PriceAnalysisPage />
           </ProtectedRoute>
         }
       />
