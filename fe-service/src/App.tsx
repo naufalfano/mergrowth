@@ -8,6 +8,7 @@ import ProductPage from "@/pages/ProductPage";
 import ProductCreatePage from "@/pages/ProductCreatePage";
 import ProductEditPage from "@/pages/ProductEditPage";
 import DemandForecastPage from "@/pages/DemandForecastPage";
+import MarketEntryPage from "@/pages/MarketEntryPage";
 import MarketEntryHubPage from "@/pages/MarketEntryHubPage";
 import MarketEntryPage from "@/pages/MarketEntryPage";
 import CorpusAnalysisPage from "@/pages/CorpusAnalysisPage";
@@ -135,6 +136,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <PriceAnalysisPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market-entry"
+        element={
+          <ProtectedRoute>
+            <MarketEntryPage />
           </ProtectedRoute>
         }
       />
