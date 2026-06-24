@@ -27,6 +27,16 @@ def generate(budget: float, horizon_days: int):
         prices.data
     )
 
+    if price_df.empty or not {"product_id", "base_price", "sale_price"}.issubset(price_df.columns):
+        return {
+            "budget": budget,
+            "horizon_days": horizon_days,
+            "used_budget": 0,
+            "remaining_budget": int(budget),
+            "expected_profit": 0,
+            "recommendations": []
+        }
+
     results = []
 
     for _, product in product_df.iterrows():
@@ -170,6 +180,16 @@ def generate(budget: float, horizon_days: int):
                 item["cost"]
             )
     
+    if not selected_items:
+        return {
+            "budget": budget,
+            "horizon_days": horizon_days,
+            "used_budget": 0,
+            "remaining_budget": int(budget),
+            "expected_profit": 0,
+            "recommendations": []
+        }
+
     selected_df = pd.DataFrame(
         selected_items
     )
