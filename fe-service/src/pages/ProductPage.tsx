@@ -20,14 +20,23 @@ import * as XLSX from "xlsx";
 
 export default function ProductPage() {
   const [products, setProducts] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [showImportModal, setShowImportModal] = useState(false);
   const [importProductsData, setImportProductsData] = useState<any[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalInventory, setTotalInventory] = useState(0);
+  const [totalCategories, setTotalCategories] = useState(0);
   const navigate = useNavigate();
 
   async function loadProducts() {
     try {
-      const data = await getProducts();
-      setProducts(data);
+      const response = await getProducts(page, 10);
+      setProducts(response.items);
+      setTotalPages(response.total_pages);
+      setTotalItems(response.total_items);
+      setTotalInventory(response.summary.total_inventory);
+      setTotalCategories(response.summary.total_categories);
     } catch (err) {
       console.error(err);
     }
@@ -83,16 +92,8 @@ export default function ProductPage() {
 
   useEffect(() => {
     loadProducts();
-  }, []);
-
-  const totalStock = products.reduce(
-    (sum, product) => sum + product.current_stock,
-    0
-  );
-
-  const totalCategories = new Set(
-    products.map((product) => product.category)
-  ).size;
+  }, [page]);
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -124,25 +125,29 @@ export default function ProductPage() {
             </button>
 
             <button
-              disabled
-              className="bg-white border border-gray-200 px-5 py-3 rounded-xl opacity-50 cursor-not-allowed"
-            >
-              Product Clustering
-            </button>
-
-            <button
-              disabled
-              className="bg-white border border-gray-200 px-5 py-3 rounded-xl opacity-50 cursor-not-allowed"
+              onClick={() =>
+                navigate("/restock-recommendation")
+              }
+              className="bg-white border border-gray-200 px-5 py-3 rounded-xl hover:shadow-sm transition"
             >
               Restock Recommendation
             </button>
 
             <button
+              onClick={() =>
+                navigate("/price-analysis")
+              }
+              className="bg-white border border-gray-200 px-5 py-3 rounded-xl hover:shadow-sm transition"
+            >
+              Price Analysis
+            </button>
+
+            {/* <button
               disabled
               className="bg-white border border-gray-200 px-5 py-3 rounded-xl opacity-50 cursor-not-allowed"
             >
               Market Benchmark
-            </button>
+            </button> */}
 
           </div>
 
@@ -161,7 +166,7 @@ export default function ProductPage() {
                 </p>
 
                 <h2 className="text-3xl font-bold mt-2">
-                  {products.length}
+                  {totalItems}
                 </h2>
               </div>
 
@@ -181,7 +186,7 @@ export default function ProductPage() {
                 </p>
 
                 <h2 className="text-3xl font-bold mt-2">
-                  {totalStock}
+                  {totalInventory}
                 </h2>
               </div>
 
@@ -403,7 +408,68 @@ export default function ProductPage() {
             </tbody>
 
           </table>
+          <div className="flex justify-center items-center gap-2 py-6 border-t">
 
+            <button
+              disabled={page === 1}
+              onClick={() =>
+                setPage(page - 1)
+              }
+              className="
+                px-4
+                py-2
+                rounded-xl
+                border
+                disabled:opacity-50
+              "
+            >
+              Previous
+            </button>
+
+            {Array.from(
+              { length: totalPages }
+            ).map((_, index) => (
+
+              <button
+                key={index}
+                onClick={() =>
+                  setPage(index + 1)
+                }
+                className={`
+                  px-4
+                  py-2
+                  rounded-xl
+                  ${
+                    page === index + 1
+                      ? "bg-[#2D4FE5] text-white"
+                      : "border"
+                  }
+                `}
+              >
+                {index + 1}
+              </button>
+
+            ))}
+
+            <button
+              disabled={
+                page === totalPages
+              }
+              onClick={() =>
+                setPage(page + 1)
+              }
+              className="
+                px-4
+                py-2
+                rounded-xl
+                border
+                disabled:opacity-50
+              "
+            >
+              Next
+            </button>
+
+          </div>
         </div>
         {showImportModal && (
         <div className="

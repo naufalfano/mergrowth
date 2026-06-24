@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi import Query
 
 from app.models.common import ApiResponse
 from app.models.product import (
@@ -31,9 +32,15 @@ def create_product(
     )
 
 @router.get("")
-def get_products():
+def get_products(
+    page: int = Query(1),
+    page_size: int = Query(10)
+):
 
-    data = product_controller.get_products()
+    data = product_controller.get_products(
+        page,
+        page_size
+    )
 
     return ApiResponse(
         success=True,

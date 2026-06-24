@@ -1,7 +1,13 @@
 import api from "./api";
 
-export async function getProducts() {
-  const res = await api.get("/api/v1/products");
+export async function getProducts(
+  page = 1,
+  pageSize = 10
+) {
+  const res = await api.get(
+    `/api/v1/products?page=${page}&page_size=${pageSize}`
+  );
+
   return res.data.data;
 }
 

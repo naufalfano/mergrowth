@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+import math
 
 from app.service.supabase import supabase
 from app.models.product import (
@@ -49,9 +50,59 @@ def create_product(payload: ProductCreateRequest):
             detail=str(e)
         )
 
-def get_products():
-
+def get_products(
+    page: int = 1,
+    page_size: int = 10
+):
     try:
+
+        offset = (
+            (page - 1)
+            * page_size
+        )
+
+        # Total product count
+
+        count_result = (
+            supabase.table("product")
+            .select(
+                "*",
+                count="exact"
+            )
+            .execute()
+        )
+
+        total_items = (
+            count_result.count
+        )
+
+        # Summary statistics (ALL products)
+
+        all_products = (
+            supabase.table("product")
+            .select(
+                """
+                product_id,
+                category,
+                current_stock
+                """
+            )
+            .execute()
+        )
+
+        total_inventory = sum(
+            product["current_stock"]
+            for product in all_products.data
+        )
+
+        total_categories = len(
+            set(
+                product["category"]
+                for product in all_products.data
+            )
+        )
+
+        # Paginated products
 
         products = (
             supabase.table("product")
@@ -64,16 +115,26 @@ def get_products():
                 current_stock
                 """
             )
+            .range(
+                offset,
+                offset + page_size - 1
+            )
             .execute()
         )
 
         result = []
 
         for product in products.data:
+
             price = (
                 supabase.table("product_price")
-                .select("base_price, sale_price")
-                .eq("product_id", product["product_id"])
+                .select(
+                    "base_price, sale_price"
+                )
+                .eq(
+                    "product_id",
+                    product["product_id"]
+                )
                 .limit(1)
                 .execute()
             )
@@ -83,23 +144,49 @@ def get_products():
                 if price.data
                 else {
                     "base_price": 0,
-                    "sale_price": 0,
+                    "sale_price": 0
                 }
             )
+
             result.append({
                 **product,
-                "base_price": price_data["base_price"],
-                "sale_price": price_data["sale_price"],
+                "base_price":
+                    price_data["base_price"],
+                "sale_price":
+                    price_data["sale_price"]
             })
 
-        return result
+        return {
+            "items": result,
+
+            "page": page,
+            "page_size": page_size,
+
+            "total_items": total_items,
+
+            "total_pages": math.ceil(
+                total_items / page_size
+            ),
+
+            "summary": {
+                "total_products":
+                    total_items,
+
+                "total_inventory":
+                    total_inventory,
+
+                "total_categories":
+                    total_categories
+            }
+        }
 
     except Exception as e:
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
-    
+
 def get_product(product_id: int):
 
     try:

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.service.config import settings
-from app.routers import health, auth, product, demand_forecasting, dashboard, marketing
+from app.routers import health, auth, product, demand_forecasting, dashboard, marketing, restock_recommendation, price_analysis
 
 app = FastAPI(title="Mergrowth API", version="0.1.0")
 
@@ -20,3 +20,5 @@ app.include_router(product.router, prefix="/api/v1")
 app.include_router(demand_forecasting.router, prefix="/api/v1")
 app.include_router(dashboard.router, prefix="/api/v1")
 app.include_router(marketing.router, prefix="/api/v1")
+app.include_router(restock_recommendation.router, prefix="/api/v1")
+app.include_router(price_analysis.router, prefix="/api/v1")
